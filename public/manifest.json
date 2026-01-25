@@ -1,0 +1,28 @@
+{
+    "name": "75Guard",
+    "short_name": "75Guard",
+    "description": "Attendance Planning & Decision Support System - State-driven attendance decision instrument",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#10B981",
+    "background_color": "#FAFAFA",
+    "orientation": "portrait-primary",
+    "categories": [
+        "education",
+        "productivity"
+    ],
+    "icons": [
+        {
+            "src": "/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

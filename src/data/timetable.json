@@ -1,0 +1,354 @@
+{
+    "effective_from": "2026-01-19",
+    "class": "TE DS",
+    "room": "LH-B316",
+    "class_teacher": "AFIFA SHAIKH",
+    "subjects": [
+        {
+            "code": "ML",
+            "name": "Machine Learning",
+            "faculty": "SR",
+            "type": "theory",
+            "lectures_per_week": 3,
+            "labs_per_week": 1,
+            "lab_weight": 2,
+            "total_sessions_per_week": 5
+        },
+        {
+            "code": "CSS",
+            "name": "Cryptography & System Security",
+            "faculty": "SA",
+            "type": "theory",
+            "lectures_per_week": 3,
+            "labs_per_week": 0,
+            "lab_weight": 2,
+            "total_sessions_per_week": 3
+        },
+        {
+            "code": "DAV",
+            "name": "Data Analytics & Visualization",
+            "faculty": "AM",
+            "type": "theory",
+            "lectures_per_week": 3,
+            "labs_per_week": 1,
+            "lab_weight": 2,
+            "total_sessions_per_week": 5
+        },
+        {
+            "code": "DC",
+            "name": "Distributed Computing",
+            "faculty": "YA",
+            "type": "theory",
+            "lectures_per_week": 3,
+            "labs_per_week": 0,
+            "lab_weight": 2,
+            "total_sessions_per_week": 3
+        },
+        {
+            "code": "SEPM",
+            "name": "Software Engineering & Project Management",
+            "faculty": "ZK",
+            "type": "theory",
+            "lectures_per_week": 3,
+            "labs_per_week": 1,
+            "lab_weight": 2,
+            "total_sessions_per_week": 5
+        },
+        {
+            "code": "CCL",
+            "name": "Cloud Computing Lab",
+            "faculty": "AM",
+            "type": "lab",
+            "lectures_per_week": 0,
+            "labs_per_week": 2,
+            "lab_weight": 2,
+            "total_sessions_per_week": 4
+        }
+    ],
+    "schedule": {
+        "Monday": [
+            {
+                "slot": 1,
+                "time": "09:30-10:30",
+                "subject": "CSS",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 2,
+                "time": "10:30-11:30",
+                "subject": "DC",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 3,
+                "time": "11:30-12:30",
+                "subject": "DAV",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 4,
+                "time": "12:30-13:30",
+                "subject": "ML",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 6,
+                "time": "14:30-15:30",
+                "subject": "SE LAB",
+                "room": "SE LAB-B413",
+                "batch": 1,
+                "type": "lab"
+            },
+            {
+                "slot": 6,
+                "time": "14:30-15:30",
+                "subject": "AI LAB",
+                "room": "AI LAB-B414",
+                "batch": 2,
+                "type": "lab"
+            },
+            {
+                "slot": 6,
+                "time": "14:30-15:30",
+                "subject": "CP LAB",
+                "room": "CP LAB-B418",
+                "batch": 3,
+                "type": "lab"
+            }
+        ],
+        "Tuesday": [
+            {
+                "slot": 1,
+                "time": "09:30-10:30",
+                "subject": "NS LAB",
+                "room": "NS LAB-B421",
+                "batch": 1,
+                "type": "lab"
+            },
+            {
+                "slot": 1,
+                "time": "09:30-10:30",
+                "subject": "SE LAB",
+                "room": "SE LAB-B413",
+                "batch": 2,
+                "type": "lab"
+            },
+            {
+                "slot": 1,
+                "time": "09:30-10:30",
+                "subject": "DBA LAB",
+                "room": "DBA LAB-B417",
+                "batch": 3,
+                "type": "lab"
+            },
+            {
+                "slot": 4,
+                "time": "12:30-13:30",
+                "subject": "CSS",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 5,
+                "time": "13:30-14:30",
+                "subject": "SEPM",
+                "room": "LH-B316"
+            }
+        ],
+        "Wednesday": [
+            {
+                "slot": 1,
+                "time": "09:30-10:30",
+                "subject": "SEPM",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 2,
+                "time": "10:30-11:30",
+                "subject": "DC",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 3,
+                "time": "11:30-12:30",
+                "subject": "DE LAB",
+                "room": "NS LAB-B421",
+                "batch": 1,
+                "type": "lab"
+            },
+            {
+                "slot": 3,
+                "time": "11:30-12:30",
+                "subject": "CP LAB",
+                "room": "CP LAB-B418",
+                "batch": 2,
+                "type": "lab"
+            },
+            {
+                "slot": 6,
+                "time": "14:30-15:30",
+                "subject": "DAV",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 7,
+                "time": "15:30-16:30",
+                "subject": "CCL",
+                "room": "CC LAB-B416",
+                "batch": 1,
+                "type": "lab"
+            },
+            {
+                "slot": 7,
+                "time": "15:30-16:30",
+                "subject": "DBA LAB",
+                "room": "DBA LAB-B417",
+                "batch": 3,
+                "type": "lab"
+            }
+        ],
+        "Thursday": [
+            {
+                "slot": 1,
+                "time": "09:30-10:30",
+                "subject": "NS LAB",
+                "room": "NS LAB-B421",
+                "batch": 1,
+                "type": "lab"
+            },
+            {
+                "slot": 1,
+                "time": "09:30-10:30",
+                "subject": "DS LAB",
+                "room": "DS LAB",
+                "batch": 2,
+                "type": "lab"
+            },
+            {
+                "slot": 4,
+                "time": "12:30-13:30",
+                "subject": "ML",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 5,
+                "time": "13:30-14:30",
+                "subject": "SEPM",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 6,
+                "time": "14:30-15:30",
+                "subject": "ESP LAB",
+                "room": "ESP LAB-B420",
+                "batch": 1,
+                "type": "lab"
+            },
+            {
+                "slot": 6,
+                "time": "14:30-15:30",
+                "subject": "AIML LAB",
+                "room": "AIML LAB",
+                "batch": 2,
+                "type": "lab"
+            }
+        ],
+        "Friday": [
+            {
+                "slot": 1,
+                "time": "09:30-10:30",
+                "subject": "ML",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 2,
+                "time": "10:30-11:30",
+                "subject": "CSS",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 3,
+                "time": "11:30-12:30",
+                "subject": "DAV",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 4,
+                "time": "12:30-13:30",
+                "subject": "DC",
+                "room": "LH-B316"
+            },
+            {
+                "slot": 6,
+                "time": "14:30-15:30",
+                "subject": "AI LAB",
+                "room": "AI LAB-B414",
+                "batch": 1,
+                "type": "lab"
+            },
+            {
+                "slot": 6,
+                "time": "14:30-15:30",
+                "subject": "DBA LAB",
+                "room": "DBA LAB-B417",
+                "batch": 2,
+                "type": "lab"
+            },
+            {
+                "slot": 6,
+                "time": "14:30-15:30",
+                "subject": "NS LAB",
+                "room": "NS LAB-B421",
+                "batch": 3,
+                "type": "lab"
+            }
+        ],
+        "Saturday": []
+    },
+    "time_slots": [
+        {
+            "slot": 1,
+            "start": "09:30",
+            "end": "10:30"
+        },
+        {
+            "slot": 2,
+            "start": "10:30",
+            "end": "11:30"
+        },
+        {
+            "slot": 3,
+            "start": "11:30",
+            "end": "12:30"
+        },
+        {
+            "slot": 4,
+            "start": "12:30",
+            "end": "13:30"
+        },
+        {
+            "slot": 5,
+            "start": "13:30",
+            "end": "14:30"
+        },
+        {
+            "slot": 6,
+            "start": "14:30",
+            "end": "15:30"
+        },
+        {
+            "slot": 7,
+            "start": "15:30",
+            "end": "16:30"
+        },
+        {
+            "slot": 8,
+            "start": "16:30",
+            "end": "17:30"
+        },
+        {
+            "slot": 9,
+            "start": "17:30",
+            "end": "18:30"
+        }
+    ]
+}

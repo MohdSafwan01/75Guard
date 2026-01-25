@@ -1,0 +1,660 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+  75Guard - Neo-Brutalist Warm Theme
+  
+  Inspired by: Warm yellows, colorful accents, bold borders
+  Style: Playful yet professional, high contrast
+*/
+
+/* ========================================
+   CSS CUSTOM PROPERTIES - WARM PALETTE
+   ======================================== */
+
+:root {
+  /* Warm base colors */
+  --bg-primary: #1C1C1C;
+  --bg-secondary: #F5E6C8;
+  --bg-tertiary: #FAF3E3;
+  --bg-elevated: #FFFFFF;
+
+  /* Accent colors - colorful & vibrant */
+  --accent-safe: #7ED957;
+  --accent-safe-light: #C4E8B0;
+  --accent-safe-bg: #E8F5E0;
+
+  --accent-tension: #FFB347;
+  --accent-tension-light: #FFD699;
+  --accent-tension-bg: #FFF4E5;
+
+  --accent-critical: #FF6B6B;
+  --accent-critical-light: #FFB3B3;
+  --accent-critical-bg: #FFE8E8;
+
+  /* Feature colors */
+  --color-pink: #FFB5C5;
+  --color-pink-dark: #E8879B;
+  --color-blue: #87CEEB;
+  --color-blue-dark: #5BA3C6;
+  --color-green: #98D8AA;
+  --color-green-dark: #6BBF7A;
+  --color-purple: #C5A3FF;
+  --color-purple-dark: #9B6FE8;
+  --color-orange: #FFB347;
+  --color-orange-dark: #E8943D;
+
+  /* Text colors */
+  --text-primary: #1C1C1C;
+  --text-secondary: #4A4A4A;
+  --text-muted: #7A7A7A;
+  --text-on-dark: #FFFFFF;
+
+  /* Borders */
+  --border-color: #1C1C1C;
+  --border-width: 2px;
+  --border-radius: 12px;
+  --border-radius-lg: 16px;
+
+  /* Shadows */
+  --shadow-sm: 2px 2px 0px #1C1C1C;
+  --shadow-md: 4px 4px 0px #1C1C1C;
+  --shadow-lg: 6px 6px 0px #1C1C1C;
+
+  /* Animation */
+  --animation-speed: 200ms;
+  --spacing-gap: 16px;
+}
+
+/* ========================================
+   STATE PALETTES
+   ======================================== */
+
+.state-safe {
+  --accent: var(--accent-safe);
+  --accent-light: var(--accent-safe-light);
+  --accent-bg: var(--accent-safe-bg);
+}
+
+.state-tension {
+  --accent: var(--accent-tension);
+  --accent-light: var(--accent-tension-light);
+  --accent-bg: var(--accent-tension-bg);
+}
+
+.state-critical {
+  --accent: var(--accent-critical);
+  --accent-light: var(--accent-critical-light);
+  --accent-bg: var(--accent-critical-bg);
+}
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
+
+.text-display {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.text-heading {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.text-body {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.text-small {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.text-numeric {
+  font-family: 'JetBrains Mono', 'SF Mono', monospace;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========================================
+   BUTTONS - NEO BRUTALIST
+   ======================================== */
+
+button {
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: var(--border-width) solid var(--border-color);
+}
+
+button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-md);
+}
+
+button:active {
+  transform: translate(0, 0);
+  box-shadow: none;
+}
+
+/* ========================================
+   CARDS - NEO BRUTALIST
+   ======================================== */
+
+.card {
+  background: var(--bg-elevated);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* ========================================
+   4-PANEL LAYOUT SYSTEM
+   ======================================== */
+
+:root {
+  --header-height: 56px;
+  --subject-stack-width: 280px;
+  --action-matrix-height: 68px;
+}
+
+/* Layout Shell Container */
+[data-testid="layout-shell"] {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* ========================================
+   PANEL 1: GLOBAL COMMAND HEADER
+   ======================================== */
+
+header[role="banner"][aria-label="Global Command Header"] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background-color: var(--bg-primary);
+  border-bottom: var(--border-width) solid var(--border-color);
+}
+
+header[role="banner"][aria-label="Global Command Header"]>div[data-testid="system-name"] {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-on-dark);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+header[role="banner"][aria-label="Global Command Header"]>div[data-testid="system-name"] span {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+header[role="banner"][aria-label="Global Command Header"]>div[data-testid="system-state"] {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: var(--border-width) solid var(--border-color);
+  background-color: var(--accent-safe);
+  color: var(--text-primary);
+}
+
+.state-tension header[role="banner"][aria-label="Global Command Header"]>div[data-testid="system-state"] {
+  background-color: var(--accent-tension);
+}
+
+.state-critical header[role="banner"][aria-label="Global Command Header"]>div[data-testid="system-state"] {
+  background-color: var(--accent-critical);
+}
+
+header[role="banner"][aria-label="Global Command Header"]>div[data-testid="system-clock"] {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-on-dark);
+}
+
+/* ========================================
+   PANEL 2: SUBJECT STACK (Left Sidebar)
+   ======================================== */
+
+aside[role="navigation"][aria-label="Subject Stack"] {
+  position: fixed;
+  left: 0;
+  top: var(--header-height);
+  bottom: var(--action-matrix-height);
+  width: var(--subject-stack-width);
+  z-index: 100;
+  padding: 16px;
+  overflow-y: auto;
+  background-color: var(--bg-secondary);
+  border-right: var(--border-width) solid var(--border-color);
+}
+
+/* Subject cards in sidebar */
+aside[role="navigation"][aria-label="Subject Stack"] section[role="button"] {
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-elevated);
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+aside[role="navigation"][aria-label="Subject Stack"] section[role="button"]:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-md);
+}
+
+aside[role="navigation"][aria-label="Subject Stack"] section[role="button"][data-active="true"] {
+  background-color: var(--color-pink);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Status colors on subject cards */
+aside[role="navigation"][aria-label="Subject Stack"] section[role="button"][data-status="safe"] {
+  border-left: 5px solid var(--accent-safe);
+}
+
+aside[role="navigation"][aria-label="Subject Stack"] section[role="button"][data-status="tension"] {
+  border-left: 5px solid var(--accent-tension);
+}
+
+aside[role="navigation"][aria-label="Subject Stack"] section[role="button"][data-status="critical"] {
+  border-left: 5px solid var(--accent-critical);
+  background-color: var(--accent-critical-bg);
+}
+
+aside[role="navigation"][aria-label="Subject Stack"] section[role="button"] div[data-testid="subject-code"] {
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-primary);
+}
+
+aside[role="navigation"][aria-label="Subject Stack"] section[role="button"] div[data-testid="subject-name"] {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* ========================================
+   PANEL 3: DECISION WORKSPACE (Main)
+   ======================================== */
+
+main[role="main"][aria-label="Decision Workspace"] {
+  position: fixed;
+  left: var(--subject-stack-width);
+  top: var(--header-height);
+  right: 0;
+  bottom: var(--action-matrix-height);
+  z-index: 10;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: var(--bg-tertiary);
+}
+
+/* Cards in Decision Workspace */
+main[role="main"][aria-label="Decision Workspace"] section {
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 20px;
+  margin-bottom: 16px;
+  background-color: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+}
+
+main[role="main"][aria-label="Decision Workspace"] h1,
+main[role="main"][aria-label="Decision Workspace"] h2 {
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: var(--border-width) solid var(--border-color);
+}
+
+/* No subject selected state */
+main[role="main"][aria-label="Decision Workspace"] div[data-testid="no-subject-selected"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 60px;
+  text-align: center;
+  border: 3px dashed var(--border-color);
+  border-radius: var(--border-radius-lg);
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+/* Colored section backgrounds */
+main[role="main"][aria-label="Decision Workspace"] section[data-testid="percentage-card"] {
+  background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-pink-dark) 100%);
+}
+
+main[role="main"][aria-label="Decision Workspace"] section[data-testid="buffer-card"] {
+  background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-blue-dark) 100%);
+}
+
+main[role="main"][aria-label="Decision Workspace"] section[data-testid="pnr-card"] {
+  background: linear-gradient(135deg, var(--color-green) 0%, var(--color-green-dark) 100%);
+}
+
+/* ========================================
+   PANEL 4: ACTION MATRIX (Bottom Bar)
+   ======================================== */
+
+footer[role="toolbar"][aria-label="Action Matrix"] {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--action-matrix-height);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  background-color: var(--bg-secondary);
+  border-top: var(--border-width) solid var(--border-color);
+}
+
+footer[role="toolbar"][aria-label="Action Matrix"]>div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+footer[role="toolbar"][aria-label="Action Matrix"] div[data-testid="no-action-message"] {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+footer[role="toolbar"][aria-label="Action Matrix"] section[data-testid="warning-section"] {
+  background-color: var(--accent-critical-bg);
+  border: var(--border-width) solid var(--accent-critical);
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+}
+
+footer[role="toolbar"][aria-label="Action Matrix"] section[data-testid="warning-section"] div {
+  font-weight: 700;
+  color: var(--accent-critical);
+  font-size: 13px;
+}
+
+footer[role="toolbar"][aria-label="Action Matrix"] button {
+  padding: 10px 20px;
+  background-color: var(--bg-elevated);
+  font-size: 13px;
+}
+
+footer[role="toolbar"][aria-label="Action Matrix"] button:first-of-type {
+  background-color: var(--color-pink);
+}
+
+footer[role="toolbar"][aria-label="Action Matrix"] button:nth-of-type(2) {
+  background-color: var(--color-blue);
+}
+
+footer[role="toolbar"][aria-label="Action Matrix"] button:nth-of-type(3) {
+  background-color: var(--color-green);
+}
+
+/* ========================================
+   HEALTH RING ANIMATIONS
+   ======================================== */
+
+@keyframes subtlePulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.health-ring.safe {
+  animation: subtlePulse 3000ms ease-in-out infinite;
+}
+
+@keyframes ringGrow {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.health-ring-enter {
+  animation: ringGrow 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ========================================
+   CUSTOM SCROLLBAR
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 5px;
+  border: 2px solid var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* Status text colors */
+.text-safe {
+  color: var(--accent-safe);
+}
+
+.text-tension {
+  color: var(--accent-tension);
+}
+
+.text-critical {
+  color: var(--accent-critical);
+}
+
+/* Status backgrounds */
+.bg-safe {
+  background-color: var(--accent-safe);
+}
+
+.bg-tension {
+  background-color: var(--accent-tension);
+}
+
+.bg-critical {
+  background-color: var(--accent-critical);
+}
+
+.bg-safe-light {
+  background-color: var(--accent-safe-bg);
+}
+
+.bg-tension-light {
+  background-color: var(--accent-tension-bg);
+}
+
+.bg-critical-light {
+  background-color: var(--accent-critical-bg);
+}
+
+/* ========================================
+   MOBILE RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --subject-stack-width: 0px;
+    --action-matrix-height: 60px;
+    --header-height: 52px;
+  }
+
+  aside[role="navigation"][aria-label="Subject Stack"] {
+    display: none;
+  }
+
+  main[role="main"][aria-label="Decision Workspace"] {
+    left: 0;
+    padding: 16px;
+  }
+}
+
+/* ========================================
+   MODAL OVERLAY
+   ======================================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background-color: var(--bg-elevated);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+/* ========================================
+   INPUT FIELDS
+   ======================================== */
+
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  padding: 12px 16px;
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-elevated);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  transition: all 0.15s ease;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus {
+  outline: none;
+  box-shadow: var(--shadow-sm);
+  transform: translate(-2px, -2px);
+}
+
+/* ========================================
+   PROGRESS BARS
+   ======================================== */
+
+.progress-bar {
+  height: 12px;
+  background-color: var(--bg-tertiary);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-bar-fill.safe {
+  background-color: var(--accent-safe);
+}
+
+.progress-bar-fill.tension {
+  background-color: var(--accent-tension);
+}
+
+.progress-bar-fill.critical {
+  background-color: var(--accent-critical);
+}

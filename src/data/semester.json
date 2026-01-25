@@ -1,0 +1,88 @@
+{
+    "semester_id": "even_2025_26",
+    "name": "Even Semester 2025-26",
+    "department": "CSE (Data Science)",
+    "batch": "TE DS 2023-27",
+    "start_date": "2026-01-12",
+    "teaching_start": "2026-01-19",
+    "end_date": "2026-04-24",
+    "teaching_weeks": 15,
+    "holidays": [
+        {
+            "date": "2026-01-26",
+            "name": "Republic Day",
+            "type": "national"
+        }
+    ],
+    "exam_periods": [
+        {
+            "start": "2026-03-05",
+            "end": "2026-03-05",
+            "type": "MSE/UT-I",
+            "description": "Mid Semester Exam & Unit Test I"
+        },
+        {
+            "start": "2026-04-22",
+            "end": "2026-04-22",
+            "type": "UT-II",
+            "description": "Unit Test II for TE and BE"
+        },
+        {
+            "start": "2026-04-27",
+            "end": "2026-04-30",
+            "type": "OR/PR",
+            "description": "Oral/Practical Exams"
+        },
+        {
+            "start": "2026-05-18",
+            "end": "2026-05-30",
+            "type": "ESE",
+            "description": "End Semester Examination"
+        }
+    ],
+    "defaulter_lists": [
+        {
+            "date": "2026-02-02",
+            "week": 4,
+            "type": "1st",
+            "description": "1st Defaulter List"
+        },
+        {
+            "date": "2026-03-02",
+            "week": 7,
+            "type": "2nd",
+            "description": "2nd Defaulter List"
+        },
+        {
+            "date": "2026-04-04",
+            "week": 11,
+            "type": "3rd",
+            "description": "3rd Defaulter List"
+        },
+        {
+            "date": "2026-04-21",
+            "week": 14,
+            "type": "Final",
+            "description": "Final Defaulter List"
+        }
+    ],
+    "important_events": [
+        {
+            "date": "2026-01-03",
+            "name": "Convocation & Alumni Meet"
+        },
+        {
+            "date": "2026-02-09",
+            "name": "Bonhomie Sports and Cultural Event"
+        },
+        {
+            "date": "2026-03-07",
+            "name": "Parents Meet"
+        },
+        {
+            "date": "2026-04-04",
+            "name": "Parents Meet / Open House"
+        }
+    ],
+    "minimum_attendance_percentage": 75
+}
