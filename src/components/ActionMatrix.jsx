@@ -57,162 +57,161 @@ function ActionMatrix() {
 
     return (
         <>
-            <>
-                <footer
-                    role="toolbar"
-                    aria-label="Action Matrix"
-                    data-testid="action-matrix"
-                    data-state={globalState.toLowerCase()}
-                    className="w-full"
-                >
-                    <div className="flex items-center justify-between w-full">
-                        {/* Left: Status/Message (Hidden on Mobile) */}
-                        <div className="hidden md:flex items-center gap-3">
-                            {globalState === 'SAFE' && !needsDataUpdate() && hasData && (
-                                <div data-testid="no-action-message" className="flex items-center gap-2 font-bold text-[#1C1C1C]">
-                                    <span className="text-lg">✅</span>
-                                    All subjects safe
+            <footer
+                role="toolbar"
+                aria-label="Action Matrix"
+                data-testid="action-matrix"
+                data-state={globalState.toLowerCase()}
+                className="w-full"
+            >
+                <div className="flex items-center justify-between w-full">
+                    {/* Left: Status/Message (Hidden on Mobile) */}
+                    <div className="hidden md:flex items-center gap-3">
+                        {globalState === 'SAFE' && !needsDataUpdate() && hasData && (
+                            <div data-testid="no-action-message" className="flex items-center gap-2 font-bold text-[#1C1C1C]">
+                                <span className="text-lg">✅</span>
+                                All subjects safe
+                            </div>
+                        )}
+
+                        {globalState === 'TENSION' && (
+                            <section data-testid="warning-section" className="bg-[#FFF4E5] border-2 border-[#FFB347] px-4 py-2 rounded-lg">
+                                <div className="font-bold text-[#1C1C1C]">
+                                    ⚡ Attention needed
                                 </div>
-                            )}
+                            </section>
+                        )}
 
-                            {globalState === 'TENSION' && (
-                                <section data-testid="warning-section" className="bg-[#FFF4E5] border-2 border-[#FFB347] px-4 py-2 rounded-lg">
-                                    <div className="font-bold text-[#1C1C1C]">
-                                        ⚡ Attention needed
-                                    </div>
-                                </section>
-                            )}
+                        {globalState === 'CRITICAL' && (
+                            <section data-testid="warning-section" className="bg-[#FFE8E8] border-2 border-[#FF6B6B] px-4 py-2 rounded-lg">
+                                <div className="font-bold text-[#FF6B6B]">
+                                    🚨 Critical: Action Required
+                                </div>
+                            </section>
+                        )}
 
-                            {globalState === 'CRITICAL' && (
-                                <section data-testid="warning-section" className="bg-[#FFE8E8] border-2 border-[#FF6B6B] px-4 py-2 rounded-lg">
-                                    <div className="font-bold text-[#FF6B6B]">
-                                        🚨 Critical: Action Required
-                                    </div>
-                                </section>
-                            )}
+                        {needsDataUpdate() && (
+                            <section data-testid="confirmation-section" className="bg-[#FFF4E5] border-2 border-[#FFB347] px-4 py-2 rounded-lg">
+                                <div className="font-semibold text-[#1C1C1C]">
+                                    ⏰ Data may be stale
+                                </div>
+                            </section>
+                        )}
+                    </div>
 
-                            {needsDataUpdate() && (
-                                <section data-testid="confirmation-section" className="bg-[#FFF4E5] border-2 border-[#FFB347] px-4 py-2 rounded-lg">
-                                    <div className="font-semibold text-[#1C1C1C]">
-                                        ⏰ Data may be stale
-                                    </div>
-                                </section>
-                            )}
-                        </div>
-
-                        {/* Right: Action Buttons (Full Width on Mobile) */}
-                        <section className="flex gap-3 w-full md:w-auto justify-end">
-                            {!hasData ? (
+                    {/* Right: Action Buttons (Full Width on Mobile) */}
+                    <section className="flex gap-3 w-full md:w-auto justify-end">
+                        {!hasData ? (
+                            <button
+                                type="button"
+                                data-testid="add-data-button"
+                                onClick={() => setShowManualEntry(true)}
+                                className="flex-1 md:flex-none px-5 py-3 rounded-lg text-sm font-bold cursor-pointer border-2 border-[#1C1C1C] shadow-[2px_2px_0px_#1C1C1C] transition-transform hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_#1C1C1C] bg-[#7ED957] text-[#1C1C1C]"
+                            >
+                                ➕ Add Attendance Data
+                            </button>
+                        ) : (
+                            <>
                                 <button
                                     type="button"
-                                    data-testid="add-data-button"
+                                    data-testid="quick-update-button"
+                                    onClick={() => setShowQuickUpdate(true)}
+                                    className="flex-1 md:flex-none px-5 py-3 rounded-lg text-sm font-bold cursor-pointer border-2 border-[#1C1C1C] shadow-[2px_2px_0px_#1C1C1C] transition-transform hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_#1C1C1C] bg-[#FFB5C5] text-[#1C1C1C]"
+                                >
+                                    ⚡ Quick
+                                </button>
+
+                                <button
+                                    type="button"
+                                    data-testid="full-update-button"
                                     onClick={() => setShowManualEntry(true)}
-                                    className="flex-1 md:flex-none px-5 py-3 rounded-lg text-sm font-bold cursor-pointer border-2 border-[#1C1C1C] shadow-[2px_2px_0px_#1C1C1C] transition-transform hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_#1C1C1C] bg-[#7ED957] text-[#1C1C1C]"
+                                    className="flex-1 md:flex-none px-5 py-3 rounded-lg text-sm font-bold cursor-pointer border-2 border-[#1C1C1C] shadow-[2px_2px_0px_#1C1C1C] transition-transform hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_#1C1C1C] bg-[#87CEEB] text-[#1C1C1C]"
                                 >
-                                    ➕ Add Attendance Data
+                                    📝 Update
                                 </button>
-                            ) : (
-                                <>
-                                    <button
-                                        type="button"
-                                        data-testid="quick-update-button"
-                                        onClick={() => setShowQuickUpdate(true)}
-                                        className="flex-1 md:flex-none px-5 py-3 rounded-lg text-sm font-bold cursor-pointer border-2 border-[#1C1C1C] shadow-[2px_2px_0px_#1C1C1C] transition-transform hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_#1C1C1C] bg-[#FFB5C5] text-[#1C1C1C]"
-                                    >
-                                        ⚡ Quick
-                                    </button>
+                            </>
+                        )}
+                    </section>
+                </div>
+            </footer>
 
-                                    <button
-                                        type="button"
-                                        data-testid="full-update-button"
-                                        onClick={() => setShowManualEntry(true)}
-                                        className="flex-1 md:flex-none px-5 py-3 rounded-lg text-sm font-bold cursor-pointer border-2 border-[#1C1C1C] shadow-[2px_2px_0px_#1C1C1C] transition-transform hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_#1C1C1C] bg-[#87CEEB] text-[#1C1C1C]"
-                                    >
-                                        📝 Update
-                                    </button>
-                                </>
-                            )}
-                        </section>
-                    </div>
-                </footer>
-
-                {/* Manual Entry Modal */}
-                {showManualEntry && (
-                    <div style={modalOverlayStyle} onClick={() => setShowManualEntry(false)}>
-                        <div style={modalContentStyle} onClick={(e) => e.stopPropagation()}>
-                            <div style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                marginBottom: '16px',
-                                paddingBottom: '16px',
-                                borderBottom: '2px solid #1C1C1C',
-                            }}>
-                                <h2 style={{ fontSize: '18px', fontWeight: '800', color: '#1C1C1C' }}>
-                                    📝 Update Attendance
-                                </h2>
-                                <button
-                                    onClick={() => setShowManualEntry(false)}
-                                    style={{
-                                        background: 'none',
-                                        border: 'none',
-                                        fontSize: '24px',
-                                        cursor: 'pointer',
-                                        color: '#1C1C1C',
-                                        padding: '4px 8px',
-                                        boxShadow: 'none',
-                                    }}
-                                >
-                                    ×
-                                </button>
-                            </div>
-                            <ManualEntryWizard
-                                onComplete={() => setShowManualEntry(false)}
-                                onCancel={() => setShowManualEntry(false)}
-                            />
+            {/* Manual Entry Modal */}
+            {showManualEntry && (
+                <div style={modalOverlayStyle} onClick={() => setShowManualEntry(false)}>
+                    <div style={modalContentStyle} onClick={(e) => e.stopPropagation()}>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: '16px',
+                            paddingBottom: '16px',
+                            borderBottom: '2px solid #1C1C1C',
+                        }}>
+                            <h2 style={{ fontSize: '18px', fontWeight: '800', color: '#1C1C1C' }}>
+                                📝 Update Attendance
+                            </h2>
+                            <button
+                                onClick={() => setShowManualEntry(false)}
+                                style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    fontSize: '24px',
+                                    cursor: 'pointer',
+                                    color: '#1C1C1C',
+                                    padding: '4px 8px',
+                                    boxShadow: 'none',
+                                }}
+                            >
+                                ×
+                            </button>
                         </div>
+                        <ManualEntryWizard
+                            onComplete={() => setShowManualEntry(false)}
+                            onCancel={() => setShowManualEntry(false)}
+                        />
                     </div>
-                )}
+                </div>
+            )}
 
-                {/* Quick Update Modal */}
-                {showQuickUpdate && (
-                    <div style={modalOverlayStyle} onClick={() => setShowQuickUpdate(false)}>
-                        <div style={modalContentStyle} onClick={(e) => e.stopPropagation()}>
-                            <div style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                marginBottom: '16px',
-                                paddingBottom: '16px',
-                                borderBottom: '2px solid #1C1C1C',
-                            }}>
-                                <h2 style={{ fontSize: '18px', fontWeight: '800', color: '#1C1C1C' }}>
-                                    ⚡ Quick Batch Update
-                                </h2>
-                                <button
-                                    onClick={() => setShowQuickUpdate(false)}
-                                    style={{
-                                        background: 'none',
-                                        border: 'none',
-                                        fontSize: '24px',
-                                        cursor: 'pointer',
-                                        color: '#1C1C1C',
-                                        padding: '4px 8px',
-                                        boxShadow: 'none',
-                                    }}
-                                >
-                                    ×
-                                </button>
-                            </div>
-                            <QuickBatchUpdate
-                                onComplete={() => setShowQuickUpdate(false)}
-                                onCancel={() => setShowQuickUpdate(false)}
-                            />
+            {/* Quick Update Modal */}
+            {showQuickUpdate && (
+                <div style={modalOverlayStyle} onClick={() => setShowQuickUpdate(false)}>
+                    <div style={modalContentStyle} onClick={(e) => e.stopPropagation()}>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: '16px',
+                            paddingBottom: '16px',
+                            borderBottom: '2px solid #1C1C1C',
+                        }}>
+                            <h2 style={{ fontSize: '18px', fontWeight: '800', color: '#1C1C1C' }}>
+                                ⚡ Quick Batch Update
+                            </h2>
+                            <button
+                                onClick={() => setShowQuickUpdate(false)}
+                                style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    fontSize: '24px',
+                                    cursor: 'pointer',
+                                    color: '#1C1C1C',
+                                    padding: '4px 8px',
+                                    boxShadow: 'none',
+                                }}
+                            >
+                                ×
+                            </button>
                         </div>
+                        <QuickBatchUpdate
+                            onComplete={() => setShowQuickUpdate(false)}
+                            onCancel={() => setShowQuickUpdate(false)}
+                        />
                     </div>
-                )}
-            </>
-            )
+                </div>
+            )}
+        </>
+    )
 }
 
-            export default ActionMatrix
+export default ActionMatrix

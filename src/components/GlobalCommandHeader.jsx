@@ -56,134 +56,70 @@ function GlobalCommandHeader({ user, onLogout }) {
             role="banner"
             aria-label="Global Command Header"
             data-testid="global-command-header"
+            className="w-full bg-[#1C1C1C] flex items-center justify-between px-4 py-3 shadow-[0_4px_0_#000000] z-30 relative"
         >
             {/* Left: Logo/Brand */}
             <div data-testid="system-name"
                 onClick={() => setExpandedSubject(null)}
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '16px',
-                    cursor: 'pointer',
-                }}>
-                <span style={{
-                    fontSize: '26px',
-                    fontWeight: '900',
-                    color: '#FFFFFF',
-                    letterSpacing: '-0.5px',
-                }}>
+                className="flex items-center gap-2 md:gap-4 cursor-pointer"
+            >
+                <span className="text-xl md:text-2xl font-black text-white tracking-tighter">
                     🛡️ 75Guard
                 </span>
-                <span style={{
-                    fontSize: '12px',
-                    color: '#7A7A7A',
-                    fontWeight: '500',
-                    padding: '4px 10px',
-                    backgroundColor: '#333',
-                    borderRadius: '6px',
-                }}>
+                <span className="hidden md:inline-block text-xs text-[#7A7A7A] font-medium px-2 py-1 bg-[#333] rounded-md">
                     {subjects.length} subjects
                 </span>
             </div>
 
-            {/* Center: Status Badge */}
-            <div data-testid="system-state" style={getStateBadgeStyle()}>
+            {/* Center: Status Badge (Hidden on very small screens if needed, otherwise simplified) */}
+            <div
+                data-testid="system-state"
+                style={getStateBadgeStyle()}
+                className="hidden md:block transition-all transform hover:scale-105"
+            >
                 {globalState === 'CRITICAL' && `🚨 ${criticalCount} CRITICAL`}
                 {globalState === 'TENSION' && '⚡ ATTENTION NEEDED'}
                 {globalState === 'SAFE' && '✓ ALL SAFE'}
             </div>
 
             {/* Right: User Menu */}
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '20px',
-                position: 'relative',
-            }}>
-                <div style={{
-                    fontSize: '12px',
-                    color: '#7A7A7A',
-                    display: 'none', // Hide on mobile
-                }}>
-                    Updated: <span style={{ color: '#FFFFFF', fontWeight: '600' }}>{formatLastUpdated()}</span>
+            <div className="flex items-center gap-4 relative">
+                <div className="hidden lg:block text-xs text-[#7A7A7A]">
+                    Updated: <span className="text-white font-semibold">{formatLastUpdated()}</span>
                 </div>
 
                 {/* User Avatar/Button */}
                 {user && (
-                    <div style={{ position: 'relative' }}>
+                    <div className="relative">
                         <button
                             onClick={() => setShowUserMenu(!showUserMenu)}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '10px',
-                                padding: '8px 14px',
-                                backgroundColor: '#333',
-                                border: '2px solid #555',
-                                borderRadius: '10px',
-                                color: '#FFFFFF',
-                                cursor: 'pointer',
-                                fontSize: '13px',
-                                fontWeight: '600',
-                                boxShadow: 'none',
-                            }}
+                            className="flex items-center gap-2 px-3 py-2 bg-[#333] border-2 border-[#555] rounded-xl text-white cursor-pointer hover:bg-[#444] transition-colors"
                         >
-                            <div style={{
-                                width: '32px',
-                                height: '32px',
-                                backgroundColor: '#7ED957',
-                                borderRadius: '8px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '14px',
-                                fontWeight: '800',
-                                color: '#1C1C1C',
-                                border: '2px solid #1C1C1C',
-                                overflow: 'hidden',
-                            }}>
+                            <div className="w-8 h-8 bg-[#7ED957] rounded-lg flex items-center justify-center font-extrabold text-[#1C1C1C] border-2 border-[#1C1C1C] overflow-hidden">
                                 {user.photoURL ? (
                                     <img
                                         src={user.photoURL}
                                         alt={user.name}
-                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                        className="w-full h-full object-cover"
                                     />
                                 ) : (
                                     user.name?.charAt(0).toUpperCase() || '?'
                                 )}
                             </div>
-                            <span>{user.name || 'User'}</span>
-                            <span style={{ fontSize: '10px' }}>▼</span>
+                            <span className="hidden sm:inline font-semibold text-sm max-w-[100px] truncate">
+                                {user.name || 'User'}
+                            </span>
+                            <span className="text-[10px]">▼</span>
                         </button>
 
                         {/* Dropdown Menu */}
                         {showUserMenu && (
-                            <div style={{
-                                position: 'absolute',
-                                top: '100%',
-                                right: '0',
-                                marginTop: '8px',
-                                backgroundColor: '#FAF3E3',
-                                border: '3px solid #1C1C1C',
-                                borderRadius: '12px',
-                                boxShadow: '6px 6px 0px #1C1C1C',
-                                minWidth: '180px',
-                                zIndex: 1000,
-                                overflow: 'hidden',
-                            }}>
-                                <div style={{
-                                    padding: '16px',
-                                    borderBottom: '2px solid #1C1C1C',
-                                }}>
-                                    <p style={{
-                                        fontSize: '14px',
-                                        fontWeight: '700',
-                                        color: '#1C1C1C',
-                                        marginBottom: '4px',
-                                    }}>
+                            <div className="absolute top-full right-0 mt-2 bg-[#FAF3E3] border-[3px] border-[#1C1C1C] rounded-2xl shadow-[6px_6px_0px_#1C1C1C] min-w-[200px] z-50 overflow-hidden">
+                                <div className="p-4 border-b-2 border-[#1C1C1C]">
+                                    <p className="text-sm font-bold text-[#1C1C1C] mb-1 truncate">
                                         {user.name || 'User'}
                                     </p>
-                                    <p style={{ fontSize: '12px', color: '#7A7A7A' }}>
+                                    <p className="text-xs text-[#7A7A7A] truncate">
                                         {user.email}
                                     </p>
                                 </div>
@@ -195,20 +131,7 @@ function GlobalCommandHeader({ user, onLogout }) {
                                             window.location.reload()
                                         }
                                     }}
-                                    style={{
-                                        width: '100%',
-                                        padding: '12px 16px',
-                                        backgroundColor: 'transparent',
-                                        border: 'none',
-                                        borderBottom: '1px solid #1C1C1C',
-                                        borderRadius: '0',
-                                        fontSize: '13px',
-                                        fontWeight: '600',
-                                        color: '#1C1C1C',
-                                        cursor: 'pointer',
-                                        textAlign: 'left',
-                                        boxShadow: 'none',
-                                    }}
+                                    className="w-full p-4 bg-transparent border-none border-b border-[#1C1C1C] text-left text-sm font-semibold text-[#1C1C1C] cursor-pointer hover:bg-black/5"
                                 >
                                     🔄 Reset Data
                                 </button>
@@ -217,19 +140,7 @@ function GlobalCommandHeader({ user, onLogout }) {
                                         setShowUserMenu(false)
                                         if (onLogout) onLogout()
                                     }}
-                                    style={{
-                                        width: '100%',
-                                        padding: '14px 16px',
-                                        backgroundColor: '#FF6B6B',
-                                        border: 'none',
-                                        borderRadius: '0',
-                                        fontSize: '13px',
-                                        fontWeight: '700',
-                                        color: '#FFFFFF',
-                                        cursor: 'pointer',
-                                        textAlign: 'left',
-                                        boxShadow: 'none',
-                                    }}
+                                    className="w-full p-4 bg-[#FF6B6B] border-none text-left text-sm font-bold text-white cursor-pointer hover:bg-[#FF5252]"
                                 >
                                     🚪 Logout
                                 </button>
