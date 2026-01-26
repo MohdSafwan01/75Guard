@@ -64,45 +64,46 @@ export const SEMESTER_CONFIG = {
  * Combined theory + lab for subjects that have both
  */
 export const DEFAULT_SUBJECTS = [
+    // THEORY SUBJECTS
     {
         code: 'ML',
         name: 'Machine Learning',
         faculty: 'SR',
-        type: 'combined',
+        type: 'theory',
         lectures_per_week: 3,
-        labs_per_week: 1,
-        total_sessions_per_week: 4,
-        total_expected_sessions: 60, // 4 × 15 weeks
+        labs_per_week: 0,
+        total_sessions_per_week: 3,
+        total_expected_sessions: 45, // 3 × 15 weeks
     },
     {
         code: 'SEPM',
         name: 'Software Engineering & Project Management',
         faculty: 'ZK',
-        type: 'combined',
+        type: 'theory',
         lectures_per_week: 3,
-        labs_per_week: 1,
-        total_sessions_per_week: 4,
-        total_expected_sessions: 60, // 4 × 15 weeks
+        labs_per_week: 0,
+        total_sessions_per_week: 3,
+        total_expected_sessions: 45, // 3 × 15 weeks
     },
     {
         code: 'CSS',
         name: 'Cryptography & System Security',
         faculty: 'SA',
-        type: 'combined',
+        type: 'theory',
         lectures_per_week: 3,
-        labs_per_week: 1,
-        total_sessions_per_week: 4,
-        total_expected_sessions: 60, // 4 × 15 weeks
+        labs_per_week: 0,
+        total_sessions_per_week: 3,
+        total_expected_sessions: 45, // 3 × 15 weeks
     },
     {
         code: 'DAV',
         name: 'Data Analytics & Visualization',
         faculty: 'AM',
-        type: 'combined',
+        type: 'theory',
         lectures_per_week: 3,
-        labs_per_week: 1,
-        total_sessions_per_week: 4,
-        total_expected_sessions: 60, // 4 × 15 weeks
+        labs_per_week: 0,
+        total_sessions_per_week: 3,
+        total_expected_sessions: 45, // 3 × 15 weeks
     },
     {
         code: 'DC',
@@ -114,6 +115,8 @@ export const DEFAULT_SUBJECTS = [
         total_sessions_per_week: 3,
         total_expected_sessions: 45, // 3 × 15 weeks
     },
+
+    // LAB SUBJECTS
     {
         code: 'CCL',
         name: 'Cloud Computing Lab',
@@ -123,6 +126,46 @@ export const DEFAULT_SUBJECTS = [
         labs_per_week: 2,
         total_sessions_per_week: 2,
         total_expected_sessions: 30, // 2 × 15 weeks
+    },
+    {
+        code: 'ML Lab',
+        name: 'Machine Learning Lab',
+        faculty: 'SR',
+        type: 'lab',
+        lectures_per_week: 0,
+        labs_per_week: 1,
+        total_sessions_per_week: 1,
+        total_expected_sessions: 15, // 1 × 15 weeks
+    },
+    {
+        code: 'SEPM Lab',
+        name: 'Software Engineering Lab',
+        faculty: 'ZK',
+        type: 'lab',
+        lectures_per_week: 0,
+        labs_per_week: 1,
+        total_sessions_per_week: 1,
+        total_expected_sessions: 15, // 1 × 15 weeks
+    },
+    {
+        code: 'CSS Lab',
+        name: 'Cryptography Lab',
+        faculty: 'SA',
+        type: 'lab',
+        lectures_per_week: 0,
+        labs_per_week: 1,
+        total_sessions_per_week: 1,
+        total_expected_sessions: 15, // 1 × 15 weeks
+    },
+    {
+        code: 'DAV Lab',
+        name: 'Data Analytics Lab',
+        faculty: 'AM',
+        type: 'lab',
+        lectures_per_week: 0,
+        labs_per_week: 1,
+        total_sessions_per_week: 1,
+        total_expected_sessions: 15, // 1 × 15 weeks
     },
 ]
 
