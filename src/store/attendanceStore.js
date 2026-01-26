@@ -406,7 +406,7 @@ export const useAttendanceStore = create(
         }),
         {
             name: '75guard-storage',
-            version: 1,
+            version: 2,
             partialize: (state) => ({
                 subjects: state.subjects,
                 semester: state.semester,
