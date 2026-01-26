@@ -189,6 +189,31 @@ function GlobalCommandHeader({ user, onLogout }) {
                                 </div>
                                 <button
                                     onClick={() => {
+                                        if (window.confirm('Are you sure? This will reset all attendance data to default.')) {
+                                            useAttendanceStore.getState().resetAllData()
+                                            useAttendanceStore.persist.clearStorage()
+                                            window.location.reload()
+                                        }
+                                    }}
+                                    style={{
+                                        width: '100%',
+                                        padding: '12px 16px',
+                                        backgroundColor: 'transparent',
+                                        border: 'none',
+                                        borderBottom: '1px solid #1C1C1C',
+                                        borderRadius: '0',
+                                        fontSize: '13px',
+                                        fontWeight: '600',
+                                        color: '#1C1C1C',
+                                        cursor: 'pointer',
+                                        textAlign: 'left',
+                                        boxShadow: 'none',
+                                    }}
+                                >
+                                    🔄 Reset Data
+                                </button>
+                                <button
+                                    onClick={() => {
                                         setShowUserMenu(false)
                                         if (onLogout) onLogout()
                                     }}
