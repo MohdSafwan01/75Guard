@@ -5,6 +5,8 @@
 import { useState } from 'react'
 import { signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { auth, googleProvider } from '../config/firebase'
+import { isCollegeEmail, getEmailValidationError } from '../config/divisions'
+import { saveUserProfile } from '../services/userService'
 
 function LoginPage({ onLoginSuccess, onBack }) {
     const [isSignUp, setIsSignUp] = useState(false)
@@ -22,10 +24,18 @@ function LoginPage({ onLoginSuccess, onBack }) {
         setIsLoading(true)
         setError('')
 
+        // Validate college email for signup
+        if (isSignUp && !isCollegeEmail(formData.email)) {
+            setError(getEmailValidationError(formData.email))
+            setIsLoading(false)
+            return
+        }
+
         try {
+            let userCredential
             if (isSignUp) {
                 // Create new account
-                const userCredential = await createUserWithEmailAndPassword(
+                userCredential = await createUserWithEmailAndPassword(
                     auth,
                     formData.email,
                     formData.password
@@ -36,9 +46,15 @@ function LoginPage({ onLoginSuccess, onBack }) {
                         displayName: formData.name
                     })
                 }
+                // Save to Firestore
+                await saveUserProfile({
+                    uid: userCredential.user.uid,
+                    email: formData.email,
+                    name: formData.name || formData.email.split('@')[0],
+                })
             } else {
                 // Sign in existing user
-                await signInWithEmailAndPassword(
+                userCredential = await signInWithEmailAndPassword(
                     auth,
                     formData.email,
                     formData.password
@@ -60,7 +76,26 @@ function LoginPage({ onLoginSuccess, onBack }) {
         setError('')
 
         try {
-            await signInWithPopup(auth, googleProvider)
+            const result = await signInWithPopup(auth, googleProvider)
+            const user = result.user
+
+            // Validate college email
+            if (!isCollegeEmail(user.email)) {
+                // Sign out if not college email
+                await auth.signOut()
+                setError('Please use your college email (@aiktc.ac.in) to sign in.')
+                setIsLoading(false)
+                return
+            }
+
+            // Save to Firestore
+            await saveUserProfile({
+                uid: user.uid,
+                email: user.email,
+                name: user.displayName,
+                photoURL: user.photoURL,
+            })
+
             // Auth state listener in useAuth will handle the redirect
             if (onLoginSuccess) onLoginSuccess()
         } catch (err) {

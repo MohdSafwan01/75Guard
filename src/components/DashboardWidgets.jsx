@@ -1,30 +1,28 @@
 /**
- * DashboardWidgets - Creative dashboard features
+ * DashboardWidgets - Clean, focused dashboard
  * 
- * Includes:
- * - Skip Bank
- * - Risk Speedometer  
- * - Weekly Report Card
- * - Streak Counter
+ * Priority layout:
+ * 1. Today's Checklist (action-first)
+ * 2. Key stats (condensed)
+ * 3. Defaulter countdown (if at risk)
  */
 
+import { useState } from 'react'
 import { useAttendanceStore } from '../store/attendanceStore'
-import { calculateBuffer, calculatePercentage, getStatus } from '../utils/calculations'
+import { calculateBuffer, getStatus } from '../utils/calculations'
+import TodayChecklist from './TodayChecklist'
+import DefaulterCountdown from './DefaulterCountdown'
 
 function DashboardWidgets() {
     const subjects = useAttendanceStore((state) => state.subjects)
-    const globalState = useAttendanceStore((state) => state.globalState)
+    const [showMore, setShowMore] = useState(false)
 
     // Calculate aggregate stats
     const stats = subjects.reduce((acc, subject) => {
         if (!subject.attendance || subject.attendance.conducted === 0) return acc
 
-        const percentage = calculatePercentage(
-            subject.attendance.attended,
-            subject.attendance.conducted
-        )
-        const buffer = calculateBuffer(subject.attendance, subject.total_expected_sessions || 75)
-        const status = getStatus(subject.attendance, subject.total_expected_sessions || 75)
+        const buffer = calculateBuffer(subject.attendance, subject.total_expected_sessions || 60)
+        const status = getStatus(subject.attendance, subject.total_expected_sessions || 60)
 
         return {
             totalAttended: acc.totalAttended + subject.attendance.attended,
@@ -47,287 +45,228 @@ function DashboardWidgets() {
 
     const overallPercentage = stats.totalConducted > 0
         ? (stats.totalAttended / stats.totalConducted) * 100
-        : 0
+        : 100
 
-    // Calculate grade
-    const getGrade = (percentage) => {
-        if (percentage >= 95) return { grade: 'A+', color: '#7ED957', emoji: '🏆' }
-        if (percentage >= 90) return { grade: 'A', color: '#7ED957', emoji: '🌟' }
-        if (percentage >= 85) return { grade: 'B+', color: '#98D8AA', emoji: '👍' }
-        if (percentage >= 80) return { grade: 'B', color: '#98D8AA', emoji: '✓' }
-        if (percentage >= 75) return { grade: 'C', color: '#FFB347', emoji: '⚡' }
-        if (percentage >= 70) return { grade: 'D', color: '#FFB347', emoji: '⚠️' }
-        return { grade: 'F', color: '#FF6B6B', emoji: '🚨' }
-    }
-
-    const gradeInfo = getGrade(overallPercentage)
-
-    // Risk level (0-100)
-    const riskLevel = Math.max(0, Math.min(100, 100 - overallPercentage + (stats.criticalCount * 10)))
-
-    // Simulate streak (would be tracked in real app)
-    const streak = Math.floor(Math.random() * 10) + 1
+    const isAtRisk = overallPercentage < 75
 
     return (
-        <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '20px',
-            padding: '8px',
-        }}>
-            {/* Welcome Card */}
+        <div style={{ padding: '8px' }}>
+            {/* Main grid - 2 column layout */}
             <div style={{
-                gridColumn: '1 / -1',
-                padding: '28px',
-                backgroundColor: '#FFB5C5',
-                border: '3px solid #1C1C1C',
-                borderRadius: '16px',
-                boxShadow: '6px 6px 0px #1C1C1C',
+                display: 'grid',
+                gridTemplateColumns: 'minmax(300px, 1fr) minmax(280px, 400px)',
+                gap: '24px',
+                alignItems: 'start',
             }}>
-                <h2 style={{
-                    fontSize: '28px',
-                    fontWeight: '900',
-                    color: '#1C1C1C',
-                    marginBottom: '8px',
-                }}>
-                    👋 Welcome to 75Guard!
-                </h2>
-                <p style={{
-                    fontSize: '15px',
-                    color: '#4A4A4A',
-                }}>
-                    Select a subject from the left to see detailed stats and simulations.
-                    Here's your quick overview:
-                </p>
-            </div>
-
-            {/* Skip Bank */}
-            <WidgetCard
-                title="🏦 Skip Bank"
-                color="#87CEEB"
-            >
-                <div style={{
-                    fontSize: '56px',
-                    fontWeight: '900',
-                    fontFamily: "'JetBrains Mono', monospace",
-                    color: '#1C1C1C',
-                    marginBottom: '8px',
-                }}>
-                    {stats.totalBuffer}
+                {/* Left column - Today's Checklist (Primary Action) */}
+                <div>
+                    <TodayChecklist />
                 </div>
-                <p style={{ fontSize: '14px', color: '#4A4A4A', fontWeight: '600' }}>
-                    free classes you can skip
-                </p>
-                <div style={{
-                    marginTop: '16px',
-                    padding: '12px',
-                    backgroundColor: 'rgba(255,255,255,0.5)',
-                    borderRadius: '8px',
-                    fontSize: '12px',
-                    color: '#1C1C1C',
-                }}>
-                    💡 Tip: Spend wisely! This resets when classes are held.
-                </div>
-            </WidgetCard>
 
-            {/* Weekly Report Card */}
-            <WidgetCard
-                title="📊 Report Card"
-                color={gradeInfo.color}
-            >
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '16px',
-                    marginBottom: '12px',
-                }}>
+                {/* Right column - Stats & Alerts */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    {/* Quick Stats Card */}
                     <div style={{
-                        width: '80px',
-                        height: '80px',
-                        backgroundColor: '#FFFFFF',
+                        backgroundColor: '#FAF3E3',
                         border: '3px solid #1C1C1C',
                         borderRadius: '16px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '40px',
-                        fontWeight: '900',
-                        color: '#1C1C1C',
-                        boxShadow: '4px 4px 0px #1C1C1C',
+                        boxShadow: '6px 6px 0px #1C1C1C',
+                        overflow: 'hidden',
                     }}>
-                        {gradeInfo.grade}
-                    </div>
-                    <div>
-                        <div style={{ fontSize: '32px' }}>{gradeInfo.emoji}</div>
+                        {/* Stats header */}
                         <div style={{
-                            fontSize: '18px',
-                            fontWeight: '700',
-                            fontFamily: "'JetBrains Mono', monospace",
-                            color: '#1C1C1C',
+                            padding: '16px 20px',
+                            backgroundColor: overallPercentage >= 75 ? '#7ED957' : '#FF6B6B',
+                            borderBottom: '2px solid #1C1C1C',
                         }}>
-                            {overallPercentage.toFixed(1)}%
-                        </div>
-                    </div>
-                </div>
-                <p style={{ fontSize: '13px', color: '#4A4A4A' }}>
-                    Overall attendance this semester
-                </p>
-            </WidgetCard>
-
-            {/* Risk Speedometer */}
-            <WidgetCard
-                title="⚡ Risk Meter"
-                color={riskLevel > 50 ? '#FF6B6B' : riskLevel > 25 ? '#FFB347' : '#98D8AA'}
-            >
-                <div style={{ position: 'relative', marginBottom: '16px' }}>
-                    {/* Speedometer arc */}
-                    <svg width="180" height="100" viewBox="0 0 180 100">
-                        {/* Background arc */}
-                        <path
-                            d="M 10 90 A 80 80 0 0 1 170 90"
-                            fill="none"
-                            stroke="rgba(255,255,255,0.5)"
-                            strokeWidth="14"
-                            strokeLinecap="round"
-                        />
-                        {/* Value arc */}
-                        <path
-                            d="M 10 90 A 80 80 0 0 1 170 90"
-                            fill="none"
-                            stroke="#1C1C1C"
-                            strokeWidth="14"
-                            strokeLinecap="round"
-                            strokeDasharray={`${(riskLevel / 100) * 251.2} 251.2`}
-                        />
-                    </svg>
-                    {/* Center value */}
-                    <div style={{
-                        position: 'absolute',
-                        bottom: '10px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        textAlign: 'center',
-                    }}>
-                        <div style={{
-                            fontSize: '32px',
-                            fontWeight: '900',
-                            fontFamily: "'JetBrains Mono', monospace",
-                            color: '#1C1C1C',
-                        }}>
-                            {Math.round(riskLevel)}
-                        </div>
-                    </div>
-                </div>
-                <p style={{
-                    fontSize: '14px',
-                    fontWeight: '700',
-                    color: '#1C1C1C',
-                    textAlign: 'center',
-                }}>
-                    {riskLevel > 50 ? '🚨 High Risk!' : riskLevel > 25 ? '⚠️ Moderate' : '✓ Low Risk'}
-                </p>
-            </WidgetCard>
-
-            {/* Streak Counter */}
-            <WidgetCard
-                title="🔥 Attendance Streak"
-                color="#FFB347"
-            >
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    marginBottom: '12px',
-                }}>
-                    <span style={{ fontSize: '48px' }}>🔥</span>
-                    <div>
-                        <div style={{
-                            fontSize: '48px',
-                            fontWeight: '900',
-                            fontFamily: "'JetBrains Mono', monospace",
-                            color: '#1C1C1C',
-                        }}>
-                            {streak}
-                        </div>
-                        <div style={{ fontSize: '14px', color: '#4A4A4A', fontWeight: '600' }}>
-                            days perfect
-                        </div>
-                    </div>
-                </div>
-                <div style={{
-                    display: 'flex',
-                    gap: '4px',
-                }}>
-                    {[1, 2, 3, 4, 5, 6, 7].map(day => (
-                        <div
-                            key={day}
-                            style={{
-                                width: '28px',
-                                height: '28px',
-                                backgroundColor: day <= streak ? '#1C1C1C' : 'rgba(255,255,255,0.5)',
-                                border: '2px solid #1C1C1C',
-                                borderRadius: '6px',
+                            <div style={{
                                 display: 'flex',
+                                justifyContent: 'space-between',
                                 alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '14px',
-                                color: day <= streak ? '#FFFFFF' : '#1C1C1C',
+                            }}>
+                                <span style={{
+                                    fontSize: '14px',
+                                    fontWeight: '700',
+                                    color: '#1C1C1C',
+                                }}>
+                                    Overall Attendance
+                                </span>
+                                <span style={{
+                                    fontSize: '28px',
+                                    fontWeight: '900',
+                                    fontFamily: "'JetBrains Mono', monospace",
+                                    color: '#1C1C1C',
+                                }}>
+                                    {overallPercentage.toFixed(1)}%
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Stats grid */}
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(3, 1fr)',
+                            gap: '2px',
+                            backgroundColor: '#1C1C1C',
+                            padding: '2px',
+                        }}>
+                            <StatBox
+                                value={stats.totalBuffer}
+                                label="Can Skip"
+                                icon="🏦"
+                                color="#87CEEB"
+                            />
+                            <StatBox
+                                value={stats.safeCount}
+                                label="Safe"
+                                icon="✅"
+                                color="#7ED957"
+                            />
+                            <StatBox
+                                value={stats.criticalCount + stats.tensionCount}
+                                label="At Risk"
+                                icon="⚠️"
+                                color={stats.criticalCount > 0 ? '#FF6B6B' : '#FFB347'}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Defaulter Countdown - only show if at risk or close to deadline */}
+                    {(isAtRisk || true) && (
+                        <DefaulterCountdown />
+                    )}
+
+                    {/* Expand for more widgets */}
+                    {!showMore && (
+                        <button
+                            onClick={() => setShowMore(true)}
+                            style={{
+                                padding: '12px',
+                                backgroundColor: 'transparent',
+                                border: '2px dashed #7A7A7A',
+                                borderRadius: '12px',
+                                color: '#7A7A7A',
+                                fontSize: '13px',
+                                fontWeight: '600',
+                                cursor: 'pointer',
                             }}
                         >
-                            {day <= streak ? '✓' : day}
-                        </div>
-                    ))}
-                </div>
-            </WidgetCard>
+                            + Show more stats
+                        </button>
+                    )}
 
-            {/* Subject Summary */}
-            <WidgetCard
-                title="📚 Subject Summary"
-                color="#C5A3FF"
-            >
-                <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
-                    <SummaryBadge count={stats.safeCount} label="Safe" color="#7ED957" />
-                    <SummaryBadge count={stats.tensionCount} label="Tension" color="#FFB347" />
-                    <SummaryBadge count={stats.criticalCount} label="Critical" color="#FF6B6B" />
+                    {/* More stats when expanded */}
+                    {showMore && (
+                        <>
+                            <StreakWidget />
+                            <TipsWidget />
+                            <button
+                                onClick={() => setShowMore(false)}
+                                style={{
+                                    padding: '12px',
+                                    backgroundColor: 'transparent',
+                                    border: '2px dashed #7A7A7A',
+                                    borderRadius: '12px',
+                                    color: '#7A7A7A',
+                                    fontSize: '13px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                }}
+                            >
+                                − Show less
+                            </button>
+                        </>
+                    )}
                 </div>
-                <div style={{
-                    fontSize: '13px',
-                    color: '#4A4A4A',
-                }}>
-                    {stats.subjectsWithData} of {subjects.length} subjects tracked
-                </div>
-            </WidgetCard>
-
-            {/* Quick Tips */}
-            <WidgetCard
-                title="💡 Quick Tips"
-                color="#98D8AA"
-            >
-                <ul style={{
-                    fontSize: '13px',
-                    color: '#4A4A4A',
-                    lineHeight: '1.8',
-                    paddingLeft: '20px',
-                    margin: 0,
-                }}>
-                    <li>Update attendance after each class</li>
-                    <li>Check PNR dates before planning trips</li>
-                    <li>Use Skip Simulator before bunking</li>
-                    <li>Keep 2-3 classes as emergency buffer</li>
-                </ul>
-            </WidgetCard>
+            </div>
         </div>
     )
 }
 
 /**
- * Widget Card wrapper
+ * Compact stat box
  */
-function WidgetCard({ title, color, children }) {
+function StatBox({ value, label, icon, color }) {
     return (
         <div style={{
-            padding: '24px',
+            padding: '16px',
             backgroundColor: color,
+            textAlign: 'center',
+        }}>
+            <div style={{ fontSize: '20px', marginBottom: '4px' }}>{icon}</div>
+            <div style={{
+                fontSize: '28px',
+                fontWeight: '900',
+                fontFamily: "'JetBrains Mono', monospace",
+                color: '#1C1C1C',
+            }}>
+                {value}
+            </div>
+            <div style={{
+                fontSize: '11px',
+                fontWeight: '700',
+                color: '#1C1C1C',
+                textTransform: 'uppercase',
+            }}>
+                {label}
+            </div>
+        </div>
+    )
+}
+
+/**
+ * Streak widget
+ */
+function StreakWidget() {
+    const streak = 3 // TODO: Calculate from actual data
+
+    return (
+        <div style={{
+            padding: '20px',
+            backgroundColor: '#FFB347',
+            border: '3px solid #1C1C1C',
+            borderRadius: '16px',
+            boxShadow: '6px 6px 0px #1C1C1C',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px',
+        }}>
+            <span style={{ fontSize: '40px' }}>🔥</span>
+            <div>
+                <div style={{
+                    fontSize: '32px',
+                    fontWeight: '900',
+                    fontFamily: "'JetBrains Mono', monospace",
+                    color: '#1C1C1C',
+                }}>
+                    {streak}
+                </div>
+                <div style={{
+                    fontSize: '13px',
+                    fontWeight: '700',
+                    color: '#1C1C1C',
+                }}>
+                    Day streak
+                </div>
+            </div>
+        </div>
+    )
+}
+
+/**
+ * Tips widget
+ */
+function TipsWidget() {
+    const tips = [
+        'Update attendance after each class',
+        'Check before planning any trips',
+        'Keep 2-3 classes as buffer',
+    ]
+
+    return (
+        <div style={{
+            padding: '20px',
+            backgroundColor: '#98D8AA',
             border: '3px solid #1C1C1C',
             borderRadius: '16px',
             boxShadow: '6px 6px 0px #1C1C1C',
@@ -335,42 +274,22 @@ function WidgetCard({ title, color, children }) {
             <h3 style={{
                 fontSize: '14px',
                 fontWeight: '800',
+                marginBottom: '12px',
                 color: '#1C1C1C',
-                marginBottom: '16px',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
             }}>
-                {title}
+                💡 Quick Tips
             </h3>
-            {children}
-        </div>
-    )
-}
-
-/**
- * Summary Badge
- */
-function SummaryBadge({ count, label, color }) {
-    return (
-        <div style={{
-            flex: 1,
-            padding: '12px',
-            backgroundColor: '#FFFFFF',
-            border: '2px solid #1C1C1C',
-            borderRadius: '10px',
-            textAlign: 'center',
-        }}>
-            <div style={{
-                fontSize: '28px',
-                fontWeight: '900',
-                color: color,
-                fontFamily: "'JetBrains Mono', monospace",
+            <ul style={{
+                margin: 0,
+                paddingLeft: '20px',
+                fontSize: '13px',
+                color: '#1C1C1C',
+                lineHeight: 1.8,
             }}>
-                {count}
-            </div>
-            <div style={{ fontSize: '11px', color: '#7A7A7A', fontWeight: '600' }}>
-                {label}
-            </div>
+                {tips.map((tip, i) => (
+                    <li key={i}>{tip}</li>
+                ))}
+            </ul>
         </div>
     )
 }

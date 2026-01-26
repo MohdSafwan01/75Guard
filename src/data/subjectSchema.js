@@ -1,117 +1,108 @@
 /**
- * Subject Schema Definition
+ * Subject Schema for TE DS (Data Science)
  * 
- * Defines the structure for subject and attendance data.
- * Used for validation and type reference throughout the app.
+ * Based on actual timetable w.e.f 19/01/2026
+ * 
+ * TIMETABLE STRUCTURE:
+ * - Labs are divided into Batch 1, 2, 3 (each student attends only their batch)
+ * - Each lab slot = 2 hours (counts as 1 lab session)
+ * 
+ * WEEKLY SCHEDULE (per student):
+ * - ML: 3 lectures + 1 lab = 4 sessions
+ * - SEPM: 3 lectures + 1 lab = 4 sessions  
+ * - CSS: 3 lectures + 1 lab = 4 sessions
+ * - DAV: 3 lectures + 1 lab = 4 sessions
+ * - DC: 3 lectures only = 3 sessions
+ * - CCL: 2 labs only = 2 sessions
+ * 
+ * SEMESTER: 15 weeks
  */
 
 /**
- * Subject base data (static, from timetable)
- * @typedef {Object} SubjectBase
- * @property {string} code - Subject code (e.g., "ML")
- * @property {string} name - Full subject name (e.g., "Machine Learning")
- * @property {string} faculty - Faculty code/name
- * @property {'theory'|'lab'} type - Subject type
- * @property {number} lectures_per_week - Number of lecture sessions per week
- * @property {number} labs_per_week - Number of lab sessions per week
- * @property {number} lab_weight - Weight multiplier for labs (typically 2)
- * @property {number} total_sessions_per_week - Computed: lectures + (labs × lab_weight)
- */
-
-/**
- * Attendance data (dynamic, user-entered)
- * @typedef {Object} AttendanceData
- * @property {number} conducted - Total sessions conducted so far
- * @property {number} attended - Sessions attended by student
- * @property {string} last_updated - ISO timestamp of last update
- * @property {'HIGH'|'MEDIUM'|'LOW'|'UNRELIABLE'} confidence - Data freshness
- * @property {'manual'|'pdf_upload'|'batch_update'} source - How data was entered
- */
-
-/**
- * Complete subject with attendance
  * @typedef {Object} Subject
- * @property {string} code
- * @property {string} name
- * @property {string} faculty
- * @property {'theory'|'lab'} type
- * @property {number} lectures_per_week
- * @property {number} labs_per_week
- * @property {number} lab_weight
- * @property {number} total_sessions_per_week
- * @property {number} total_expected_sessions - For entire semester
- * @property {AttendanceData} attendance
+ * @property {string} code - Short code (e.g., 'ML')
+ * @property {string} name - Full name
+ * @property {string} faculty - Faculty initials
+ * @property {'theory'|'lab'|'combined'} type - Subject type
+ * @property {number} lectures_per_week - Number of lecture sessions per week
+ * @property {number} labs_per_week - Number of lab sessions per week (per student)
+ * @property {number} total_sessions_per_week - Total sessions per week
+ * @property {number} total_expected_sessions - Total sessions in semester (15 weeks)
  */
 
 /**
- * Calculated state for a subject (derived, not stored)
- * @typedef {Object} CalculatedState
- * @property {string} subject_code
- * @property {number} current_percentage - (attended / conducted) × 100
- * @property {number} buffer - Classes that can be missed while staying ≥75%
- * @property {number} deficit - Additional classes needed to reach 75%
- * @property {'SAFE'|'TENSION'|'CRITICAL'} status
- * @property {number} remaining_sessions - Sessions left in semester
- * @property {Date|null|'PASSED'} pnr_date - Point of No Return date
- * @property {boolean} recovery_possible - Can 75% still be achieved?
- * @property {RecoveryPlan} recovery_plan
+ * @typedef {Object} AttendanceData
+ * @property {number} attended - Classes attended
+ * @property {number} conducted - Classes conducted so far
  */
 
-/**
- * Recovery plan structure
- * @typedef {Object} RecoveryPlan
- * @property {boolean} possible
- * @property {WeekPlan[]} plan - Week-by-week breakdown
- * @property {number} finalPercentage - Projected final %
- * @property {'EASY'|'MEDIUM'|'HARD'|'IMPOSSIBLE'} difficulty
- * @property {number} [maxAchievable] - If recovery impossible
- * @property {string} [message] - Explanation
- */
+// Semester configuration (from CSE DS Academic Calendar Even Term 2025-26)
+export const SEMESTER_CONFIG = {
+    totalWeeks: 15,           // Teaching weeks (Jan 12 - Apr 24)
+    startDate: '2026-01-12',  // Commencement of all semesters
+    timetableStart: '2026-01-19', // Timetable w.e.f
+    termEndDate: '2026-04-24',    // Term End
+    eseStartDate: '2026-05-18',   // End Semester Exam starts
+    targetPercentage: 75,
+
+    // Key dates for defaulter lists
+    defaulterDates: {
+        first: '2026-02-02',   // 1st Defaulter List (Week 4)
+        second: '2026-03-02',  // 2nd Defaulter List (Week 7)
+        third: '2026-04-04',   // 3rd Defaulter List (Week 11)
+        final: '2026-04-21',   // Final Defaulter List (Week 14)
+    },
+
+    // Holidays
+    holidays: [
+        { date: '2026-01-26', name: 'Republic Day' },
+    ],
+}
 
 /**
- * Week plan entry
- * @typedef {Object} WeekPlan
- * @property {number} week - Week number
- * @property {number} attend - Sessions to attend
- * @property {number} skip - Sessions that can be skipped
- */
-
-/**
- * Default subject list for TE DS based on timetable
+ * Default subjects for TE DS
+ * Combined theory + lab for subjects that have both
  */
 export const DEFAULT_SUBJECTS = [
     {
         code: 'ML',
         name: 'Machine Learning',
         faculty: 'SR',
-        type: 'theory',
+        type: 'combined',
         lectures_per_week: 3,
         labs_per_week: 1,
-        lab_weight: 2,
-        total_sessions_per_week: 5,
-        total_expected_sessions: 75, // 5 × 15 weeks
+        total_sessions_per_week: 4,
+        total_expected_sessions: 60, // 4 × 15 weeks
+    },
+    {
+        code: 'SEPM',
+        name: 'Software Engineering & Project Management',
+        faculty: 'ZK',
+        type: 'combined',
+        lectures_per_week: 3,
+        labs_per_week: 1,
+        total_sessions_per_week: 4,
+        total_expected_sessions: 60, // 4 × 15 weeks
     },
     {
         code: 'CSS',
         name: 'Cryptography & System Security',
         faculty: 'SA',
-        type: 'theory',
+        type: 'combined',
         lectures_per_week: 3,
-        labs_per_week: 0,
-        lab_weight: 2,
-        total_sessions_per_week: 3,
-        total_expected_sessions: 45, // 3 × 15 weeks
+        labs_per_week: 1,
+        total_sessions_per_week: 4,
+        total_expected_sessions: 60, // 4 × 15 weeks
     },
     {
         code: 'DAV',
         name: 'Data Analytics & Visualization',
         faculty: 'AM',
-        type: 'theory',
+        type: 'combined',
         lectures_per_week: 3,
         labs_per_week: 1,
-        lab_weight: 2,
-        total_sessions_per_week: 5,
-        total_expected_sessions: 75, // 5 × 15 weeks
+        total_sessions_per_week: 4,
+        total_expected_sessions: 60, // 4 × 15 weeks
     },
     {
         code: 'DC',
@@ -120,20 +111,8 @@ export const DEFAULT_SUBJECTS = [
         type: 'theory',
         lectures_per_week: 3,
         labs_per_week: 0,
-        lab_weight: 2,
         total_sessions_per_week: 3,
         total_expected_sessions: 45, // 3 × 15 weeks
-    },
-    {
-        code: 'SEPM',
-        name: 'Software Engineering & Project Management',
-        faculty: 'ZK',
-        type: 'theory',
-        lectures_per_week: 3,
-        labs_per_week: 1,
-        lab_weight: 2,
-        total_sessions_per_week: 5,
-        total_expected_sessions: 75, // 5 × 15 weeks
     },
     {
         code: 'CCL',
@@ -142,55 +121,24 @@ export const DEFAULT_SUBJECTS = [
         type: 'lab',
         lectures_per_week: 0,
         labs_per_week: 2,
-        lab_weight: 2,
-        total_sessions_per_week: 4,
-        total_expected_sessions: 60, // 4 × 15 weeks
-    },
-    {
-        code: 'DAV L',
-        name: 'DAV Lab',
-        faculty: 'AM',
-        type: 'lab',
-        lectures_per_week: 0,
-        labs_per_week: 2,
-        lab_weight: 2,
-        total_sessions_per_week: 4,
-        total_expected_sessions: 60, // 4 × 15 weeks
-    },
-    {
-        code: 'CSS L',
-        name: 'CSS Lab',
-        faculty: 'SA',
-        type: 'lab',
-        lectures_per_week: 0,
-        labs_per_week: 2,
-        lab_weight: 2,
-        total_sessions_per_week: 4,
-        total_expected_sessions: 60, // 4 × 15 weeks
-    },
-    {
-        code: 'ML L',
-        name: 'ML Lab',
-        faculty: 'SR',
-        type: 'lab',
-        lectures_per_week: 0,
-        labs_per_week: 2,
-        lab_weight: 2,
-        total_sessions_per_week: 4,
-        total_expected_sessions: 60, // 4 × 15 weeks
-    },
-    {
-        code: 'SEPM L',
-        name: 'SEPM Lab',
-        faculty: 'ZK',
-        type: 'lab',
-        lectures_per_week: 0,
-        labs_per_week: 2,
-        lab_weight: 2,
-        total_sessions_per_week: 4,
-        total_expected_sessions: 60, // 4 × 15 weeks
+        total_sessions_per_week: 2,
+        total_expected_sessions: 30, // 2 × 15 weeks
     },
 ]
+
+/**
+ * Total sessions per week across all subjects (per student)
+ */
+export const TOTAL_SESSIONS_PER_WEEK = DEFAULT_SUBJECTS.reduce(
+    (sum, s) => sum + s.total_sessions_per_week, 0
+) // = 21 sessions/week
+
+/**
+ * Total sessions in semester across all subjects
+ */
+export const TOTAL_SESSIONS_IN_SEMESTER = DEFAULT_SUBJECTS.reduce(
+    (sum, s) => sum + s.total_expected_sessions, 0
+) // = 315 sessions total
 
 /**
  * Create empty attendance record
@@ -198,30 +146,50 @@ export const DEFAULT_SUBJECTS = [
  */
 export function createEmptyAttendance() {
     return {
-        conducted: 0,
         attended: 0,
-        last_updated: new Date().toISOString(),
-        confidence: 'HIGH',
-        source: 'manual',
+        conducted: 0,
     }
 }
 
 /**
- * Create subject with empty attendance
- * @param {SubjectBase} baseData
- * @returns {Subject}
+ * Initialize subject with empty attendance
+ * @param {Subject} subject 
+ * @returns {Subject & { attendance: AttendanceData, id: string }}
  */
-export function createSubjectWithAttendance(baseData) {
+export function initializeSubject(subject) {
     return {
-        ...baseData,
+        ...subject,
+        id: subject.code,
         attendance: createEmptyAttendance(),
     }
 }
 
 /**
- * Initialize all subjects with empty attendance
- * @returns {Subject[]}
+ * Get all subjects initialized with attendance data
+ * @returns {Array}
  */
-export function initializeSubjects() {
-    return DEFAULT_SUBJECTS.map(createSubjectWithAttendance)
+export function getInitializedSubjects() {
+    return DEFAULT_SUBJECTS.map(initializeSubject)
+}
+
+/**
+ * Calculate sessions remaining in semester for a subject
+ * @param {Subject} subject 
+ * @param {number} weeksRemaining 
+ * @returns {number}
+ */
+export function calculateRemainingSessionsForSubject(subject, weeksRemaining) {
+    return subject.total_sessions_per_week * weeksRemaining
+}
+
+/**
+ * Calculate how many sessions happened so far (estimated by weeks elapsed)
+ * @param {number} weeksElapsed 
+ * @returns {Object} - Sessions per subject
+ */
+export function calculateExpectedSessionsSoFar(weeksElapsed) {
+    return DEFAULT_SUBJECTS.reduce((acc, subject) => {
+        acc[subject.code] = subject.total_sessions_per_week * weeksElapsed
+        return acc
+    }, {})
 }

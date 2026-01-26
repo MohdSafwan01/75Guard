@@ -1,11 +1,12 @@
 /**
  * Firebase Configuration
  * 
- * 75Guard - Firebase Authentication Setup
+ * 75Guard - Firebase Authentication + Firestore Setup
  */
 
 import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 
 // Firebase configuration
 const firebaseConfig = {
@@ -24,12 +25,17 @@ const app = initializeApp(firebaseConfig)
 // Initialize Firebase Auth
 export const auth = getAuth(app)
 
+// Initialize Firestore (for leaderboard & user data)
+export const db = getFirestore(app)
+
 // Google Auth Provider
 export const googleProvider = new GoogleAuthProvider()
 
-// Configure Google provider
+// Configure Google provider - restrict to college domain
 googleProvider.setCustomParameters({
-    prompt: 'select_account'  // Always show account selection
+    prompt: 'select_account',
+    hd: 'aiktc.ac.in'  // Hint to show only AIKTC accounts
 })
 
 export default app
+

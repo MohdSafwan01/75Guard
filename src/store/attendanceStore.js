@@ -15,7 +15,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import semesterData from '../data/semester.json'
-import { DEFAULT_SUBJECTS, createSubjectWithAttendance } from '../data/subjectSchema'
+import { DEFAULT_SUBJECTS, initializeSubject } from '../data/subjectSchema'
 import { calculateSubjectState } from '../utils/calculations'
 import { getGlobalStateFromSubjects } from '../engine/attendanceDecisionEngine'
 import { getWeeksRemaining, getDataConfidence } from '../utils/dateHelpers'
