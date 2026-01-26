@@ -12,6 +12,7 @@ import { useAttendanceStore } from '../store/attendanceStore'
 import { calculateBuffer, getStatus } from '../utils/calculations'
 import TodayChecklist from './TodayChecklist'
 import DefaulterCountdown from './DefaulterCountdown'
+import Leaderboard from './Leaderboard'
 
 function DashboardWidgets() {
     const subjects = useAttendanceStore((state) => state.subjects)
@@ -158,6 +159,7 @@ function DashboardWidgets() {
                     {/* More stats when expanded */}
                     {showMore && (
                         <>
+                            <Leaderboard />
                             <StreakWidget />
                             <TipsWidget />
                             <button

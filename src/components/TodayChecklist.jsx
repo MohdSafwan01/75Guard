@@ -142,7 +142,8 @@ function TodayChecklist() {
     }
 
     // Check for holiday or weekend FIRST
-    const todayString = today.toISOString().split('T')[0]
+    // Use local time, not UTC (toISOString uses UTC which causes issues in IST)
+    const todayString = today.toLocaleDateString('en-CA') // Returns YYYY-MM-DD in local time
     const holiday = getHolidayInfo(todayString)
     const weekend = isWeekend(today)
 

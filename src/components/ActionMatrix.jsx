@@ -191,27 +191,7 @@ function ActionMatrix() {
                                     📝 Full Update
                                 </button>
 
-                                {globalState === 'CRITICAL' && (
-                                    <button
-                                        type="button"
-                                        data-testid="view-recovery-button"
-                                        style={{
-                                            ...buttonStyle,
-                                            backgroundColor: '#98D8AA',
-                                            color: '#1C1C1C',
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.transform = 'translate(-2px, -2px)'
-                                            e.target.style.boxShadow = '4px 4px 0px #1C1C1C'
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.transform = 'none'
-                                            e.target.style.boxShadow = '2px 2px 0px #1C1C1C'
-                                        }}
-                                    >
-                                        📈 Recovery Plans
-                                    </button>
-                                )}
+
                             </>
                         )}
                     </section>

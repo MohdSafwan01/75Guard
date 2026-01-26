@@ -10,6 +10,7 @@ function GlobalCommandHeader({ user, onLogout }) {
     const globalState = useAttendanceStore((state) => state.globalState)
     const subjects = useAttendanceStore((state) => state.subjects)
     const lastUpdated = useAttendanceStore((state) => state.lastUpdated)
+    const setExpandedSubject = useAttendanceStore((state) => state.setExpandedSubject)
     const [showUserMenu, setShowUserMenu] = useState(false)
 
     const criticalCount = subjects.filter(s => {
@@ -57,11 +58,14 @@ function GlobalCommandHeader({ user, onLogout }) {
             data-testid="global-command-header"
         >
             {/* Left: Logo/Brand */}
-            <div data-testid="system-name" style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '16px',
-            }}>
+            <div data-testid="system-name"
+                onClick={() => setExpandedSubject(null)}
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '16px',
+                    cursor: 'pointer',
+                }}>
                 <span style={{
                     fontSize: '26px',
                     fontWeight: '900',

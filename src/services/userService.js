@@ -104,7 +104,7 @@ export async function getLeaderboard(division = DEFAULT_DIVISION, maxResults = 2
         leaderboard.push({
             uid: doc.id,
             rank: leaderboard.length + 1,
-            name: maskName(data.name),
+            name: data.name || 'Anonymous', // Show FULL Name
             percentage: data.overallPercentage || 0,
             streak: data.streak || 0,
             photoURL: data.photoURL,
